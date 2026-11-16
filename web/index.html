@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en-CA">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#17211c">
+  <meta name="description" content="Compare Bank of Canada policy rates, bond yields and exchange rates since 2017.">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
+  <title>BankRate Lab · CoolCode.ca</title>
+  <link rel="stylesheet" href="./style.css">
+  <script src="./app.mjs" type="module"></script>
+</head>
+<body>
+<header class="dark">
+  <nav class="wrap" aria-label="Main">
+    <a href="https://coolcode.ca/" class="brand"><b aria-hidden="true">&gt;_</b>CoolCode.ca</a>
+    <a href="#sources">Data &amp; methodology</a>
+  </nav>
+  <div class="hero wrap">
+    <div><h1>BankRate Lab<span>.</span></h1><p>Trace Canada's policy rate, bond yields, and exchange rates on the same timeline.</p></div>
+    <aside class="overview">
+      <h2>Latest observations</h2>
+      <dl>
+        <div><dt>Policy rate <small id="hero-policy-date"></small></dt><dd id="hero-policy">—</dd></div>
+        <div><dt>Canada 5-year <small id="hero-bond-date"></small></dt><dd id="hero-bond">—</dd></div>
+        <div><dt>CAD per US dollar <small id="hero-fx-date"></small></dt><dd id="hero-fx">—</dd></div>
+      </dl>
+      <p id="snapshot">Loading the Valet snapshot…</p>
+    </aside>
+  </div>
+</header>
+<main class="wrap">
+  <noscript>Enable JavaScript to explore the data, or open the official Bank of Canada links below.</noscript>
+  <section aria-labelledby="explore">
+    <div class="head"><h2 id="explore">Compare series</h2><button type="button" id="export" disabled>Download data CSV ↓</button></div>
+    <p id="status" role="status">Loading observations…</p>
+    <button type="button" id="retry" hidden>Retry loading</button>
+    <div id="controls" hidden>
+      <div class="controls">
+        <label>View
+          <select id="group">
+            <option value="rates">Interest rates &amp; yields</option>
+            <option value="fx">Exchange rates</option>
+            <option value="index">Exchange rates · indexed</option>
+          </select>
+        </label>
+        <label>Series<select id="primary"></select></label>
+        <label>Compare with<select id="comparison"></select></label>
+        <label>From<input id="from" type="date"></label>
+        <label>Through<input id="through" type="date"></label>
+      </div>
+      <div class="quick" aria-label="Quick date ranges">
+        <button type="button" data-months="3">3 months</button>
+        <button type="button" data-months="12">1 year</button>
+        <button type="button" data-months="36">3 years</button>
+        <button type="button" data-months="0">All dates</button>
+      </div>
+    </div>
+    <article class="frame" id="plot" hidden>
+      <div class="head"><h3 id="chart-title">Observations</h3><a id="source-link" href="https://www.bankofcanada.ca/valet/docs">Open series at Valet ↗</a></div>
+      <p id="chart-description" class="support"></p>
+      <canvas id="chart" class="chart" aria-hidden="true"></canvas>
+      <ul id="legend" class="legend" aria-label="Chart series"></ul>
+      <div class="inspector">
+        <label for="inspect">Inspect an observation date</label>
+        <input type="range" id="inspect" min="0" max="0" value="0">
+        <output id="selection" for="inspect"></output>
+      </div>
+      <details><summary>View observations in a table</summary>
+        <div class="table-scroll">
+          <table aria-label="Observations in the selected range"><thead><tr id="table-head"></tr></thead><tbody id="table-body"></tbody></table>
+        </div>
+        <div class="page-controls"><button id="newer" type="button">Newer</button><span id="page"></span><button id="older" type="button">Older</button></div>
+      </details>
+    </article>
+  </section>
+  <section id="sources" class="section" aria-labelledby="sources-heading">
+    <h2 id="sources-heading">Data &amp; methodology</h2>
+    <p>The Bank of Canada publishes business-day observations. The most recent date can differ across series. The policy rate and Bank Rate are shown as steps. A dash in the table means that no observation was published for that date and series.</p>
+    <p>FX rates are Canadian dollars per unit of foreign currency. In indexed view, 100 is each currency’s first available observation within your chosen range. The data CSV gives the underlying published values.</p>
+    <ul class="source-list">
+      <li><a href="https://www.bankofcanada.ca/valet-api-how-to/">Bank of Canada Valet API</a> · official observations, 2017 onward.</li>
+      <li><a href="https://www.bankofcanada.ca/rates/exchange/background-information-on-foreign-exchange-rates/">Exchange rate methodology</a> and <a href="https://www.bankofcanada.ca/rates/interest-rates/canadian-interest-rates/">interest rate series notes</a>.</li>
+      <li><a href="https://www.bankofcanada.ca/terms/">Bank of Canada terms of use</a>. Source observations are organized and charted by CoolCode.</li>
+    </ul>
+  </section>
+</main>
+<footer class="dark"><div class="wrap"><span>BankRate Lab</span><a href="https://github.com/jsdyer/bankrates">Source on GitHub ↗</a></div></footer>
+</body>
+</html>
