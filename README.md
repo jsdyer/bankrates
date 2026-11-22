@@ -4,6 +4,8 @@
 
 All controls use a static same-origin JSON snapshot. The chart groups rates and exchange rates by units. Indexed FX rebases each series to its first available observation within the chosen date range. The CSV retains the original CAD exchange rates. Empty observations remain blank in exported data.
 
+For the forecast behind a decision, [Policy Rate Scorecard](https://coolcode.ca/scorecard/) compares earlier public survey medians with the announced overnight target.
+
 ## Build
 
 ```sh
