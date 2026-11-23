@@ -1,0 +1,25 @@
+{
+  "id": "bankrates",
+  "title": "BankRate Lab",
+  "description": "Chart Bank of Canada rates, exchange rates and yields.",
+  "category": "money",
+  "tags": [
+    "interest",
+    "policy",
+    "bank",
+    "cad",
+    "usd",
+    "bonds",
+    "mortgage"
+  ],
+  "icon": "percent",
+  "url": "/bankrates/",
+  "source": "https://github.com/jsdyer/bankrates",
+  "hosting": "project",
+  "access": "browser",
+  "data_info": {
+    "mode": "snapshot",
+    "detail": "The Bank of Canada publishes the interest rates, bond yields and Canadian-dollar exchange rates shown here.",
+    "cadence": "Weekdays"
+  }
+}
