@@ -1,10 +1,10 @@
 # BankRate Lab
 
 <!-- coolcode:guide -->
-Choose a date range and use the date inspector or data table to compare rates with matching units. Indexed FX starts each series at its first available observation, while CSV exports preserve original exchange rates and blank observations.
+Choose a date range and use the date inspector or data table to compare rates with matching units. Indexed FX starts each series at its first available observation, while CSV exports preserve original exchange rates and blank observations. Check the next scheduled policy decision and recent observed target changes, then follow the private payment-scenario link to Renewal Bench.
 <!-- /coolcode:guide -->
 
-[Open BankRate Lab](https://coolcode.ca/bankrates/) to compare Bank of Canada business-day observations. Explore the overnight policy target, Bank Rate, 2-, 5- and 10-year Government of Canada benchmark yields, and CAD exchange rates for USD, EUR, GBP and JPY. Each view has a date range, keyboard-accessible date inspector, tabular data, a shareable URL, and raw observation CSV export.
+[Open BankRate Lab](https://coolcode.ca/bankrates/) to compare Bank of Canada business-day observations. Explore the overnight policy target, Bank Rate, 2-, 5- and 10-year Government of Canada benchmark yields, and CAD exchange rates for USD, EUR, GBP and JPY. Each view has a date range, keyboard-accessible date inspector, tabular data, a shareable URL, and raw observation CSV export. The official policy calendar shows the next explicitly scheduled decision, and an observation-change table identifies movements in the target series.
 
 All controls use a static same-origin JSON snapshot. The chart groups rates and exchange rates by units. Indexed FX rebases each series to its first available observation within the chosen date range. The CSV retains the original CAD exchange rates. Empty observations remain blank in exported data.
 
@@ -43,3 +43,13 @@ Public GitHub repositories can have scheduled workflows disabled after 60 days o
 
 This is an interim mitigation, not a scheduling guarantee: GitHub does not document active-workflow renewal as a permanent exemption, and scheduled runs can be delayed or dropped. A scheduler on our own Linux server is the planned independent trigger. The guard does not collect data, create dummy commits, or change source/check timestamps; successful collection and published data freshness still need monitoring.
 <!-- /schedule-reliability -->
+
+## Policy calendar and payment scenarios
+
+The online build reads the explicitly dated schedule tables on the Bank of Canada policy-rate page. `snapshot.json.calendar.checked_at` records the successful calendar retrieval separately. If no future date remains, the app says so rather than projecting an eight-meeting pattern. Dates may change. An offline `--input` build contains no captured calendar and links to the publisher.
+
+The target-change table lists the first daily observation at a different rate, preserving its date rather than treating it as the press-release date. Unchanged meetings are not included. Follow Renewal Bench for monthly payment scenarios using **your own contractual rates**; no one-for-one relationship between policy changes and lender pricing is assumed.
+
+## Expand or customize
+
+`SERIES` and `START` in `scripts/build.py` control accepted Valet series and coverage. Add a labelled rates/FX series and validate its official units; the selectors derive options dynamically. The calendar parser is in `scripts/calendars.py`. Refresh with the existing weekday workflow or manual Run workflow. The schedule, watchdog target and metrics identity remain unchanged.

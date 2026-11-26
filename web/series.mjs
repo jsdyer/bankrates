@@ -217,3 +217,16 @@ export function createChart() {
     select(model.dates.length - 1);
   };
 }
+
+export function policyChanges(dates, values) {
+  const changes = []; let previous = null;
+  values.forEach((value, index) => {
+    if (!Number.isFinite(value)) return;
+    if (previous && previous.value !== value) changes.push({date: dates[index], previousDate: previous.date, before: previous.value, after: value, points: value - previous.value});
+    previous = {value, date: dates[index]};
+  });
+  return changes;
+}
+export function nextPolicyEvent(events, today) {
+  return [...events].filter(e => /^\d{4}-\d{2}-\d{2}$/.test(e.date) && e.date >= today).sort((a,b) => a.date.localeCompare(b.date))[0] || null;
+}

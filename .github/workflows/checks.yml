@@ -23,6 +23,7 @@ jobs:
           node-version: '24'
 
       - run: node --test tests/*.test.mjs
+      - run: python3 -m unittest discover -s tests -v
       - name: Build isolated browser test edition
         run: python3 tests/build_fixture.py
       - name: Install browser test dependencies

@@ -1,4 +1,4 @@
-import { createChart, createTable, csvDownload, get, setOptions, subtractMonths } from './series.mjs';
+import { createChart, createTable, csvDownload, get, setOptions, subtractMonths, policyChanges, nextPolicyEvent, element } from './series.mjs';
 
 const fields = Object.fromEntries(['group', 'primary', 'comparison', 'from', 'through'].map(id => [id, get(id)]));
 const chart = createChart();
@@ -32,6 +32,13 @@ function renderOverview() {
     get('hero-' + id + '-date').textContent = ' · ' + date;
   }
   get('snapshot').textContent = 'Snapshot built ' + data.built.slice(0, 10) + ' UTC';
+  const today = new Intl.DateTimeFormat('en-CA',{timeZone:'America/Toronto',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());
+  const next = nextPolicyEvent(data.calendar?.events || [], today);
+  get('policy-next').textContent = next ? next.date + ' · Bank of Canada' : 'No future date in the captured calendar';
+  get('policy-calendar-check').textContent = data.calendar?.checked_at ? 'Schedule checked ' + data.calendar.checked_at.slice(0,10) + ' UTC. Dates may change.' : 'Calendar unavailable in this edition. Check the official schedule.';
+  const changes = policyChanges(data.dates, data.tracks.V39079.data).reverse().slice(0,16);
+  get('policy-changes').replaceChildren(...changes.map(c => {const tr=element('tr');for(const v of [c.date,c.before.toFixed(2)+'%',c.after.toFixed(2)+'%',(c.points>0?'+':'')+c.points.toFixed(2)+' percentage points'])tr.append(element('td',v));return tr;}));
+
 }
 
 function seriesOptions(primary, comparison) {

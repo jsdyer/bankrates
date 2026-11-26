@@ -29,6 +29,8 @@ def main():
                 assert response.ok
                 expect(page.locator('h1')).to_be_visible()
                 expect(page.locator('#controls')).to_be_visible()
+                expect(page.locator('#policy-next')).to_contain_text('No future date')
+                assert page.locator('#policy-changes tr').count() > 0
                 expect(page.locator('#chart-title')).not_to_be_empty()
                 page.locator('#inspect').fill('0')
                 expect(page.locator('#selection')).not_to_be_empty()

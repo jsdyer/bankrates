@@ -10,6 +10,10 @@ import time
 from urllib.error import URLError
 from urllib.request import Request, urlopen
 
+from calendars import boc_events
+
+CALENDAR_SOURCE = "https://www.bankofcanada.ca/core-functions/monetary-policy/key-interest-rate/"
+
 ROOT = Path(__file__).resolve().parents[1]
 BASE = "https://www.bankofcanada.ca/valet/observations/"
 START = "2017-01-01"
@@ -85,6 +89,14 @@ def main():
     args = parser.parse_args()
     raw = json.loads(args.input.read_bytes()) if args.input else fetch()
     snapshot = normalize(raw)
+    if args.input:
+        snapshot['calendar'] = {'checked_at': None, 'source': CALENDAR_SOURCE, 'events': [], 'note': 'Offline input build: calendar not collected'}
+    else:
+        request = Request(CALENDAR_SOURCE, headers={'User-Agent': 'CoolCode BankRate Lab (+https://coolcode.ca/bankrates/)', 'Accept':'text/html'})
+        with urlopen(request, timeout=45) as response:
+            page = response.read(3_000_001)
+        if len(page)>3_000_000: raise ValueError('Calendar response too large')
+        snapshot['calendar'] = {'checked_at': datetime.now(timezone.utc).isoformat(timespec='seconds'), 'source': CALENDAR_SOURCE, 'events': boc_events(page.decode('utf-8'), CALENDAR_SOURCE)}
     with TemporaryDirectory(dir=ROOT) as temporary:
         stage = Path(temporary) / "dist"
         shutil.copytree(ROOT / "web", stage)
