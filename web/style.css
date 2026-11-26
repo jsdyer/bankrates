@@ -86,3 +86,9 @@ noscript { display: block; margin-bottom: 1rem; }
 }
 
 .policy-context{margin:28px 0;padding:24px;background:#f0f3e8;border:1px solid #d5dfce;border-radius:8px}.policy-summary{display:grid;grid-template-columns:1fr 1fr;gap:28px}.policy-summary p{line-height:1.5}#policy-next{font-size:1.4rem;font-weight:600}.policy-context summary{cursor:pointer;font-weight:600}.policy-context .table-wrap{overflow:auto}.policy-context table{width:100%;border-collapse:collapse}.policy-context td,.policy-context th{padding:10px;text-align:left;border-bottom:1px solid #d5dfce;white-space:nowrap}@media(max-width:650px){.policy-summary{grid-template-columns:1fr;gap:8px}.policy-context{padding:16px}}
+
+.task-entries { display: flex; flex-wrap: wrap; gap: .55rem 1.1rem; margin: .8rem 0; }
+.task-entries a { color: inherit; text-decoration: underline; text-underline-offset: .18em; }
+.task-entries a:first-child { font-weight: bold; }
+.tool-name { font-size: .95rem; margin: .25rem 0; }
+h1 { overflow-wrap: anywhere; }

@@ -53,3 +53,8 @@ The target-change table lists the first daily observation at a different rate, p
 ## Expand or customize
 
 `SERIES` and `START` in `scripts/build.py` control accepted Valet series and coverage. Add a labelled rates/FX series and validate its official units; the selectors derive options dynamically. The calendar parser is in `scripts/calendars.py`. Refresh with the existing weekday workflow or manual Run workflow. The schedule, watchdog target and metrics identity remain unchanged.
+
+## Ready-to-use examples
+
+- [Bank of Canada Policy Rate History](https://coolcode.ca/bankrates/policy-rate-history.html). See the target overnight rate and the dates it changed. The chart opens to twelve months of policy rates. Change the time range to see earlier decisions or export the daily observations.
+- [Canadian 2-Year and 10-Year Government Bond Yields](https://coolcode.ca/bankrates/canada-bond-yields.html). Compare the two-year and ten-year benchmark yields on the same dates. The chart shows annual percentage yields. Use the table for individual observations and the export for longer comparisons.

@@ -135,7 +135,7 @@ async function load() {
     data = await response.json();
     if (!data.dates?.length || !data.tracks) throw new Error('Invalid snapshot');
     renderOverview();
-    const query = new URLSearchParams(location.search);
+    const query = new URLSearchParams(location.search || document.body.dataset.series || "");
     const group = query.get('view');
     if (Object.hasOwn(presets, group)) fields.group.value = group;
     seriesOptions(query.get('series') ?? presets[fields.group.value][0], query.get('compare') ?? presets[fields.group.value][1]);

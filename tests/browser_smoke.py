@@ -39,6 +39,9 @@ def main():
                     assert page.evaluate('document.documentElement.scrollWidth <= window.innerWidth'), f'horizontal overflow at {width}px'
                 assert not errors,errors
                 assert not failed,failed
+                page.goto(f'http://127.0.0.1:{server.server_port}/{SLUG}/canada-bond-yields.html')
+                page.wait_for_function("document.querySelector('#primary').value === 'BD.CDN.2YR.DQ.YLD' && document.querySelector('#comparison').value === 'BD.CDN.10YR.DQ.YLD'")
+                assert page.locator('link[rel="canonical"]').get_attribute('href') == 'https://coolcode.ca/bankrates/canada-bond-yields.html'
                 browser.close()
             print(SLUG+': subpath, interaction, JavaScript errors and mobile overflow checks passed')
         finally:server.shutdown();server.server_close()

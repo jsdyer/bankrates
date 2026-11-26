@@ -14,6 +14,8 @@ from calendars import boc_events
 
 CALENDAR_SOURCE = "https://www.bankofcanada.ca/core-functions/monetary-policy/key-interest-rate/"
 
+from public_pages import publish_pages
+
 ROOT = Path(__file__).resolve().parents[1]
 BASE = "https://www.bankofcanada.ca/valet/observations/"
 START = "2017-01-01"
@@ -101,6 +103,7 @@ def main():
         stage = Path(temporary) / "dist"
         shutil.copytree(ROOT / "web", stage)
         (stage / "snapshot.json").write_text(json.dumps(snapshot, separators=(",", ":")), encoding="utf-8")
+        publish_pages(stage, (stage / "index.html").read_text(encoding="utf-8"), json.loads((ROOT / "tool.json").read_text()), snapshot)
         output = ROOT / "dist"
         if output.exists():
             shutil.rmtree(output)

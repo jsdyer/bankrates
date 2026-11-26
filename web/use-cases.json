@@ -1,0 +1,16 @@
+[
+  {
+    "slug": "policy-rate-history",
+    "title": "Bank of Canada Policy Rate History",
+    "description": "See the target overnight rate and the dates it changed. The chart opens to twelve months of policy rates. Change the time range to see earlier decisions or export the daily observations.",
+    "setting": "series",
+    "value": "view=rates&series=V39079&compare="
+  },
+  {
+    "slug": "canada-bond-yields",
+    "title": "Canadian 2-Year and 10-Year Government Bond Yields",
+    "description": "Compare the two-year and ten-year benchmark yields on the same dates. The chart shows annual percentage yields. Use the table for individual observations and the export for longer comparisons.",
+    "setting": "series",
+    "value": "view=rates&series=BD.CDN.2YR.DQ.YLD&compare=BD.CDN.10YR.DQ.YLD"
+  }
+]
