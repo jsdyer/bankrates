@@ -3,7 +3,7 @@ from html import escape
 import json
 import re
 
-from urllib.parse import parse_qs
+from urllib.parse import parse_qs, urlencode
 
 from search_metadata import add_search_metadata
 
@@ -13,12 +13,19 @@ def public_records(data, case):
     keys = params["series"] + params.get("compare", [])
     rows = []
     for key in keys:
+        if key == "V80691311" and key not in data["tracks"]:
+            rows.append('<li>Prime lending rate unavailable in this saved edition.</li>')
+            continue
         series = data["tracks"][key]
         index = next((i for i in range(len(series["data"]) - 1, -1, -1)
                       if series["data"][i] is not None), None)
         if index is None:
             continue
-        rows.append(f'<li>{escape(series["label"])} · {series["data"][index]:.2f}% on {escape(data["dates"][index])}</li>')
+        observed = data["dates"][index]
+        query = urlencode({"start_date": observed, "end_date": observed})
+        source = f"https://www.bankofcanada.ca/valet/observations/{key}/json?{query}"
+        rows.append(f'<li>{escape(series["label"])} · <a href="{escape(source, quote=True)}">'
+                    f'{series["data"][index]:.2f}% on {escape(observed)}</a></li>')
     return '<ul aria-label="Latest observations">' + "".join(rows) + '</ul>'
 
 

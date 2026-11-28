@@ -90,7 +90,8 @@ function render() {
       label: track.label,
       raw,
       baseline,
-      step: key === 'V39079' || key === 'V39078',
+      step: ['V39079', 'V39078'].includes(key),
+      pointsOnly: key === 'V80691311',
       values: group === 'index' ? raw.map(value => value === null ? null : 100 * value / raw[baseline]) : raw,
     };
   });
@@ -99,7 +100,8 @@ function render() {
   const shown = group === 'rates' ? 'Percent' : group === 'fx'
     ? 'Canadian dollars per unit of each selected currency' : 'Indexed to 100 at the first available observation';
   const baselineNote = group === 'index' ? ' · ' + tracks.filter(t => t.baseline >= 0).map(t => t.label + ' starts ' + dates[t.baseline]).join(' · ') : '';
-  get('chart-description').textContent = shown + ' · ' + dates.length.toLocaleString('en-CA') + ' observation dates' + baselineNote;
+  get('chart-description').textContent = shown + ' · ' + dates.length.toLocaleString('en-CA') + ' observation dates' + baselineNote
+    + (ids.includes('V80691311') ? ' · Dots mark weekly prime observations' : '');
   const endpoint = 'https://www.bankofcanada.ca/valet/observations/' + ids.join(',') + '/json';
   get('source-link').href = endpoint + '?' + new URLSearchParams({ start_date: min, end_date: max });
   table(['Date', ...tracks.map(track => track.label)], dates.map((date, n) => [

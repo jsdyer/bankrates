@@ -149,6 +149,12 @@ export function createChart() {
           if (model.breakGaps) previous = null;
           return;
         }
+        if (track.pointsOnly) {
+          ctx.beginPath();
+          ctx.arc(position(n), y(value), 2.6, 0, 2 * Math.PI);
+          ctx.fill();
+          return;
+        }
         if (previous === null) ctx.moveTo(position(n), y(value));
         else {
           if (track.step) ctx.lineTo(position(n), y(previous));
@@ -156,6 +162,7 @@ export function createChart() {
         }
         previous = value;
       });
+      if (track.pointsOnly) return;
       ctx.stroke();
       if (track.values.filter(Number.isFinite).length <= 40) {
         for (let n = 0; n < track.values.length; n++) {

@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#17211c">
-  <meta name="description" content="Compare Bank of Canada policy rates, bond yields and exchange rates since 2017.">
+  <meta name="description" content="Compare Canadian prime and policy rates, bond yields and exchange rates since 2017.">
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
   <title>Bank of Canada Interest Rates and Bond Yields · CoolCode</title>
   <link rel="stylesheet" href="./style.css">
@@ -18,7 +18,7 @@
     <a href="#sources">Data &amp; methodology</a>
   </nav>
   <div class="hero wrap">
-    <div><p class="tool-name">BankRate Lab</p><h1>Bank of Canada Interest Rates and Bond Yields</h1><!-- case-context --><nav class="task-entries" aria-label="Start here"><a href="#controls">Compare rates</a><a href="./policy-rate-history.html">Bank of Canada Policy Rate History</a><a href="./canada-bond-yields.html">Canadian 2-Year and 10-Year Government Bond Yields</a></nav><p>Trace Canada's policy rate, bond yields, and exchange rates on the same timeline.</p></div>
+    <div><p class="tool-name">BankRate Lab</p><h1>Bank of Canada Interest Rates and Bond Yields</h1><!-- case-context --><nav class="task-entries" aria-label="Start here"><a href="#controls">Compare rates</a><a href="./policy-rate-history.html">Bank of Canada Policy Rate History</a><a href="./canadian-prime-rate-history.html">Prime and policy rate history</a><a href="./canada-bond-yields.html">Canadian 2-Year and 10-Year Government Bond Yields</a></nav><p>Compare the overnight target with banks’ prime lending rate, or explore bond yields and Canadian-dollar exchange rates.</p></div>
     <aside class="overview">
       <h2>Latest observations</h2>
       <dl>
@@ -34,7 +34,7 @@
   <noscript>Enable JavaScript to explore the data, or open the official Bank of Canada links below.</noscript>
   <section class="policy-context" aria-labelledby="policy-context-title">
     <h2 id="policy-context-title">The next decision, and the changes behind it</h2>
-    <div class="policy-summary"><div><span class="support">Next scheduled policy announcement</span><p id="policy-next">Loading the official calendar…</p><p id="policy-calendar-check" class="support"></p></div><div><p>A policy-rate decision does not automatically change your lender's mortgage rate or payment by the same amount.</p><a href="https://coolcode.ca/renewalbench/#rate-scenarios">Compare monthly payments at your own assumed rates ↗</a></div></div>
+    <div class="policy-summary"><div><span class="support">Next scheduled policy announcement</span><p id="policy-next">Loading the official calendar…</p><p id="policy-calendar-check" class="support"></p></div><div><p>The Bank of Canada sets the overnight target. Each lender sets its own prime rate. For a variable-rate mortgage quoted as prime plus or minus a margin, use your lender’s prime and the margin in your contract.</p><a href="https://coolcode.ca/renewalbench/#rate-scenarios">Compare monthly payments at your own assumed rates ↗</a></div></div>
     <details><summary>Recent observed policy-target changes</summary><p class="support">Dates below are the first changed daily observations in the Valet series, not a claim about the announcement time. Unchanged decisions are not listed.</p><div class="table-wrap"><table><thead><tr><th>Observation date</th><th>Previous target</th><th>New target</th><th>Change</th></tr></thead><tbody id="policy-changes"></tbody></table></div></details>
     <p><a href="https://www.bankofcanada.ca/core-functions/monetary-policy/key-interest-rate/">Official decision schedule ↗</a> · <a href="https://coolcode.ca/scorecard/">Compare decisions with earlier survey forecasts ↗</a></p>
   </section>
@@ -83,7 +83,7 @@
   </section>
   <section id="sources" class="section" aria-labelledby="sources-heading">
     <h2 id="sources-heading">Data &amp; methodology</h2>
-    <p>The Bank of Canada publishes business-day observations. The most recent date can differ across series. The policy rate and Bank Rate are shown as steps. A dash in the table means that no observation was published for that date and series.</p>
+    <p>The Bank of Canada’s <a href="https://www.bankofcanada.ca/rates/banking-and-financial-statistics/posted-interest-rates-offered-by-chartered-banks/">weekly prime lending rate</a> appears as a dot for each reported Wednesday. The overnight target and Bank Rate appear as steps. Each series shows its own observation date. A dash in the table means that no observation was published for that date and series.</p>
     <p>How closely did markets anticipate the next decision? <a href="https://coolcode.ca/scorecard/">Compare survey forecasts with announced targets in Policy Rate Scorecard.</a></p>
     <p>FX rates are Canadian dollars per unit of foreign currency. In indexed view, 100 is each currency’s first available observation within your chosen range. The data CSV gives the underlying published values.</p>
     <ul class="source-list">

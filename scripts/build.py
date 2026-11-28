@@ -22,6 +22,7 @@ START = "2017-01-01"
 SERIES = {
     "V39079": ["Policy rate", "rates"],
     "V39078": ["Bank Rate", "rates"],
+    "V80691311": ["Prime lending rate (weekly)", "rates"],
     "BD.CDN.2YR.DQ.YLD": ["Canada 2-year yield", "rates"],
     "BD.CDN.5YR.DQ.YLD": ["Canada 5-year yield", "rates"],
     "BD.CDN.10YR.DQ.YLD": ["Canada 10-year yield", "rates"],
@@ -49,12 +50,17 @@ def fetch():
             time.sleep(2 ** attempt)
 
 
-def normalize(raw):
+def normalize(raw, *, saved_input=False):
     details = raw["seriesDetail"]
     tracks = {}
     for key, (label, group) in SERIES.items():
+        # Older saved Valet responses contain the original nine series.
+        if saved_input and key == "V80691311" and key not in details:
+            continue
         item = details[key]
         unit = item["metadata"]["unit"]
+        if key == "V80691311" and item["metadata"].get("frequency") != "Weekly":
+            raise ValueError(f"Unexpected frequency for {key}.")
         if group == "rates" and unit != "Percent":
             raise ValueError(f"Unexpected unit for {key}: {unit}")
         if group == "fx" and not unit.startswith("Canadian dollars per "):
@@ -75,11 +81,13 @@ def normalize(raw):
             if value is not None and (not math.isfinite(value) or (track["group"] == "fx" and value <= 0)):
                 raise ValueError(f"Invalid observation for {key} on {when}.")
             track["data"].append(value)
-    if len(dates) < 500 or any(sum(value is not None for value in track["data"]) < 500 for track in tracks.values()):
-        raise ValueError("Valet returned too few observations.")
+    for key, track in tracks.items():
+        minimum = 100 if key == "V80691311" else 500
+        if sum(value is not None for value in track["data"]) < minimum:
+            raise ValueError(f"Valet returned too few observations for {key}.")
     return {
         "built": datetime.now(timezone.utc).isoformat(timespec="seconds"),
-        "source": SOURCE,
+        "source": BASE + ",".join(tracks) + "/json?start_date=" + START,
         "dates": dates,
         "tracks": tracks,
     }
@@ -90,7 +98,7 @@ def main():
     parser.add_argument("--input", type=Path, help="Use previously downloaded Valet JSON for the configured range and series.")
     args = parser.parse_args()
     raw = json.loads(args.input.read_bytes()) if args.input else fetch()
-    snapshot = normalize(raw)
+    snapshot = normalize(raw, saved_input=args.input is not None)
     if args.input:
         snapshot['calendar'] = {'checked_at': None, 'source': CALENDAR_SOURCE, 'events': [], 'note': 'Offline input build: calendar not collected'}
     else:
@@ -108,7 +116,7 @@ def main():
         if output.exists():
             shutil.rmtree(output)
         stage.replace(output)
-    print(f"Prepared {len(snapshot['dates']):,} dates for {len(SERIES)} Valet series.")
+    print(f"Prepared {len(snapshot['dates']):,} dates for {len(snapshot['tracks'])} Valet series.")
 
 
 if __name__ == "__main__":

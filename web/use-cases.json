@@ -12,5 +12,12 @@
     "description": "Compare the two-year and ten-year benchmark yields on the same dates. The chart shows annual percentage yields. Use the table for individual observations and the export for longer comparisons.",
     "setting": "series",
     "value": "view=rates&series=BD.CDN.2YR.DQ.YLD&compare=BD.CDN.10YR.DQ.YLD"
+  },
+  {
+    "slug": "canadian-prime-rate-history",
+    "title": "Canadian Prime Rate and Bank of Canada Policy Rate History",
+    "description": "Compare weekly prime lending rates with the daily overnight target from 2017 onward. Choose a Wednesday to compare observations, or download the history for both rates.",
+    "setting": "series",
+    "value": "view=rates&series=V39079&compare=V80691311"
   }
 ]

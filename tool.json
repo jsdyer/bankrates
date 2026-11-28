@@ -1,7 +1,7 @@
 {
   "id": "bankrates",
   "title": "BankRate Lab",
-  "description": "Chart Bank of Canada rates, exchange rates and yields.",
+  "description": "Chart Canadian prime and policy rates, government bond yields and exchange rates.",
   "category": "money",
   "tags": [
     "interest",
@@ -10,7 +10,8 @@
     "cad",
     "usd",
     "bonds",
-    "mortgage"
+    "mortgage",
+    "prime lending rate"
   ],
   "icon": "percent",
   "url": "/bankrates/",
@@ -19,7 +20,7 @@
   "access": "browser",
   "data_info": {
     "mode": "snapshot",
-    "detail": "The Bank of Canada publishes the interest rates, bond yields and Canadian-dollar exchange rates shown here.",
+    "detail": "The Bank of Canada publishes weekly prime lending rates and daily observations for the overnight target, government bond yields and Canadian-dollar exchange rates.",
     "cadence": "Weekdays"
   }
 }

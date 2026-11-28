@@ -2,8 +2,8 @@
 from functools import partial
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
-import json, re, shutil, tempfile, threading
-from datetime import datetime, timedelta, timezone
+import csv, shutil, tempfile, threading
+from datetime import date
 from playwright.sync_api import sync_playwright, expect
 ROOT=Path(__file__).resolve().parents[1]
 SLUG='bankrates'
@@ -42,6 +42,22 @@ def main():
                 page.goto(f'http://127.0.0.1:{server.server_port}/{SLUG}/canada-bond-yields.html')
                 page.wait_for_function("document.querySelector('#primary').value === 'BD.CDN.2YR.DQ.YLD' && document.querySelector('#comparison').value === 'BD.CDN.10YR.DQ.YLD'")
                 assert page.locator('link[rel="canonical"]').get_attribute('href') == 'https://coolcode.ca/bankrates/canada-bond-yields.html'
+                page.goto(f'http://127.0.0.1:{server.server_port}/{SLUG}/canadian-prime-rate-history.html')
+                expect(page.locator('#primary')).to_have_value('V39079')
+                expect(page.locator('#comparison')).to_have_value('V80691311')
+                expect(page.locator('#chart-title')).to_contain_text('Prime lending rate')
+                expect(page.locator('link[rel="canonical"]')).to_have_attribute('href', 'https://coolcode.ca/bankrates/canadian-prime-rate-history.html')
+                expect(page.locator('ul[aria-label="Latest observations"] a[href*="V80691311"]')).to_have_count(1)
+                with page.expect_download() as download:
+                    page.locator('#export').click()
+                with Path(download.value.path()).open(newline="") as downloaded:
+                    reader = csv.reader(downloaded)
+                    assert next(reader)[1:] == ["V39079 (Percent)", "V80691311 (Percent)"]
+                    values = [(date.fromisoformat(day), prime) for day, policy, prime in reader if policy]
+                assert any(prime for _, prime in values) and any(not prime for _, prime in values)
+                assert all(bool(prime) == (day.weekday() == 2) for day, prime in values)
+                assert not errors, errors
+                assert not failed, failed
                 browser.close()
             print(SLUG+': subpath, interaction, JavaScript errors and mobile overflow checks passed')
         finally:server.shutdown();server.server_close()
